@@ -49,5 +49,5 @@ foreach (var elemento in ListaIndirizzi) {
 }
 
 bool CheckEmpty(string[] array) {
-    return !array.Contains("");
+    return !Array.Exists(array, col => string.IsNullOrWhiteSpace(col));
 }
