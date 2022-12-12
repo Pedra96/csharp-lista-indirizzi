@@ -21,16 +21,7 @@ try {
 
 
         string[] InformazioniIndirizzo = riga.Split(',');
-        if (InformazioniIndirizzo.Length == 6) {
-            bool flag = true;
-            for (int i = 0; i < InformazioniIndirizzo.Length; i++) {
-                if (string.IsNullOrEmpty(InformazioniIndirizzo[i])) {
-                    sw.WriteLine(riga);
-                    flag = false;
-                    break;
-                }
-            }
-            if (flag == true) {
+        if (InformazioniIndirizzo.Length == 6 && CheckNull(InformazioniIndirizzo)) {
 
                 string Name = InformazioniIndirizzo[0];
                 string Surname = InformazioniIndirizzo[1];
@@ -40,16 +31,13 @@ try {
                 string ZIP = InformazioniIndirizzo[5];
                 indirizzo IndirizzoEstratto = new(Name, Surname, Street, City, Province, ZIP);
                 ListaIndirizzi.Add(IndirizzoEstratto);
-            }
+            
         } else {
             sw.WriteLine(riga);
         }
     }
     file.Close();
     sw.Close();
-}
-catch (IndexOutOfRangeException) {
-    Console.WriteLine("Non hai inserito abbastanza elementi");
 }
 catch (Exception e) {
     Console.WriteLine(e);
@@ -58,4 +46,13 @@ catch (Exception e) {
 
 foreach (var elemento in ListaIndirizzi) {
     Console.WriteLine(elemento);
+}
+
+bool CheckNull(string[] array) {
+    for (int i = 0; i < array.Length; i++) {
+        if (string.IsNullOrEmpty(array[i])) {
+            return false;
+        }
+    }
+    return true;
 }
