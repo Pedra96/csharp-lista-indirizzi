@@ -13,6 +13,7 @@ using System.Reflection.Metadata.Ecma335;
 
 List<indirizzo> ListaIndirizzi = new();
 try {
+
     StreamReader file = File.OpenText(@"..\..\..\Indirizzi\addresses.csv");
     StreamWriter sw = new StreamWriter(@"..\..\..\Indirizzi\InvalidAddresses.csv");
     file.ReadLine();
@@ -21,7 +22,7 @@ try {
 
 
         string[] InformazioniIndirizzo = riga.Split(',');
-        if (InformazioniIndirizzo.Length == 6 && CheckNull(InformazioniIndirizzo)) {
+        if (InformazioniIndirizzo.Length == 6 && CheckEmpty(InformazioniIndirizzo)) {
 
                 string Name = InformazioniIndirizzo[0];
                 string Surname = InformazioniIndirizzo[1];
@@ -43,16 +44,10 @@ catch (Exception e) {
     Console.WriteLine(e);
 }
 
-
 foreach (var elemento in ListaIndirizzi) {
     Console.WriteLine(elemento);
 }
 
-bool CheckNull(string[] array) {
-    for (int i = 0; i < array.Length; i++) {
-        if (string.IsNullOrEmpty(array[i])) {
-            return false;
-        }
-    }
-    return true;
+bool CheckEmpty(string[] array) {
+    return !array.Contains("");
 }
