@@ -7,37 +7,55 @@ vi chiedo di pensarci e di gestire come meglio crediate queste casistiche.
 */
 using ListaIndirizzi;
 using System.Linq.Expressions;
+using System.IO;
+using System.Reflection;
+using System.Reflection.Metadata.Ecma335;
 
 List<indirizzo> ListaIndirizzi = new();
-
 try {
-    StreamReader file = File.OpenText(@"F:\Generation_Ita_Esercizi\ListaIndirizzi\ListaIndirizzi\Indirizzi\addresses.csv");
+    StreamReader file = File.OpenText(@"..\..\..\Indirizzi\addresses.csv");
+    StreamWriter sw = new StreamWriter(@"..\..\..\Indirizzi\InvalidAddresses.csv");
+    file.ReadLine();
     while (!file.EndOfStream) {
         string riga = file.ReadLine();
 
 
-        string[] InformazioniIndirizzo = riga.Split(",");
-        for(int i = 0;i<InformazioniIndirizzo.Length;i++) {
-            if (string.IsNullOrEmpty(InformazioniIndirizzo[i])){
-                InformazioniIndirizzo[i] = "Error";
+        string[] InformazioniIndirizzo = riga.Split(',');
+        if (InformazioniIndirizzo.Length == 6) {
+            bool flag = true;
+            for (int i = 0; i < InformazioniIndirizzo.Length; i++) {
+                if (string.IsNullOrEmpty(InformazioniIndirizzo[i])) {
+                    sw.WriteLine(riga);
+                    flag = false;
+                    break;
+                }
             }
-        }
+            if (flag == true) {
 
-        string Name = InformazioniIndirizzo[0];
-        string Surname = InformazioniIndirizzo[1];
-        string Street = InformazioniIndirizzo[2];
-        string City = InformazioniIndirizzo[3];
-        string Province = InformazioniIndirizzo[4];
-        string ZIP = InformazioniIndirizzo[5];
-        indirizzo IndirizzoEstratto = new(Name, Surname, Street, City, Province, ZIP);
-        ListaIndirizzi.Add(IndirizzoEstratto);
+                string Name = InformazioniIndirizzo[0];
+                string Surname = InformazioniIndirizzo[1];
+                string Street = InformazioniIndirizzo[2];
+                string City = InformazioniIndirizzo[3];
+                string Province = InformazioniIndirizzo[4];
+                string ZIP = InformazioniIndirizzo[5];
+                indirizzo IndirizzoEstratto = new(Name, Surname, Street, City, Province, ZIP);
+                ListaIndirizzi.Add(IndirizzoEstratto);
+            }
+        } else {
+            sw.WriteLine(riga);
+        }
     }
     file.Close();
+    sw.Close();
+}
+catch (IndexOutOfRangeException) {
+    Console.WriteLine("Non hai inserito abbastanza elementi");
 }
 catch (Exception e) {
     Console.WriteLine(e);
 }
 
-foreach(var elemento in ListaIndirizzi) {
+
+foreach (var elemento in ListaIndirizzi) {
     Console.WriteLine(elemento);
 }

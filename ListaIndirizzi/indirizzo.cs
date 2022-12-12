@@ -69,12 +69,12 @@ namespace ListaIndirizzi {
         }
 
         public override string ToString() {
-            string print = GetName() + "\t";
-            print += GetSurname() + "\t";
-            print += GetStreet() + "\t";
-            print += GetCity() + "\t";
-            print += GetProvince() + "\t";
-            print += GetZIP() + "\t";
+            string print = GetName() + "\n";
+            print += GetSurname() + "\n";
+            print += GetStreet() + "\n";
+            print += GetCity() + "\n";
+            print += GetProvince() + "\n";
+            print += GetZIP() + "\n";
             return print;
         }
     }
